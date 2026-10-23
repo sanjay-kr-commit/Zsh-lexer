@@ -7,7 +7,8 @@ package.path = dir .. "?.lua;" .. package.path
 -- end of logic
 
 local interface_table = require("interface")
-local lexer = require("lexer")
+local lexer_table = require("lexer")
+local test_table = require("test")
 
 -- entry point
-interface_table.intercept(lexer.lexer, lexer.inspection_handler_std_out)
+interface_table.intercept(lexer_table.lexer, test_table.inspection_handler_std_out)
