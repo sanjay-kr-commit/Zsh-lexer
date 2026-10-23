@@ -7,23 +7,6 @@ object_table.WHITESPACE = {
 	["\t"] = true,
 }
 
-object_table.OPERATORS = {
-	[";"] = true,
-	["|"] = true,
-	["&"] = true,
-	["<"] = true,
-	[">"] = true,
-}
-
-object_table.BRACKETS = {
-	["("] = true,
-	[")"] = true,
-	["["] = true,
-	["]"] = true,
-	["{"] = true,
-	["}"] = true,
-}
-
 object_table.TOKEN_TYPE = {
 	--
 	WORD = 0,
@@ -47,6 +30,25 @@ object_table.TOKEN_TYPE = {
 	PIPE = 14,
 	FORWARD_REDIRECTION = 15,
 	BACKWORD_REDIRECTION = 16,
+	ASSIGNMENT = 17,
+}
+
+object_table.OPERATORS = {
+	[";"] = object_table.TOKEN_TYPE.SEMICOLON,
+	["|"] = object_table.TOKEN_TYPE.PIPE,
+	["&"] = object_table.TOKEN_TYPE.AMPERSEN,
+	["<"] = object_table.TOKEN_TYPE.BACKWORD_REDIRECTION,
+	[">"] = object_table.TOKEN_TYPE.FORWARD_REDIRECTION,
+	["="] = object_table.TOKEN_TYPE.ASSIGNMENT,
+}
+
+object_table.BRACKETS = {
+	["("] = object_table.TOKEN_TYPE.OPEN_BRACKET,
+	[")"] = object_table.TOKEN_TYPE.CLOSE_BRACKET,
+	["["] = object_table.TOKEN_TYPE.SQURE_OPEN_BRACKET,
+	["]"] = object_table.TOKEN_TYPE.SQURE_CLOSE_BRACKET,
+	["{"] = object_table.TOKEN_TYPE.CURLY_OPEN_BRACKET,
+	["}"] = object_table.TOKEN_TYPE.CURLY_CLOSE_BRACKET,
 }
 
 object_table.INDEXED_TOKEN = {}

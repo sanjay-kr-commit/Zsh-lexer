@@ -23,18 +23,28 @@ local function add_token(context)
   context.token = ""
 end
 
-local function isBreak(context, char, lambda)
+local function is_break(context, char, lambda)
 	if context.comment_is_open or context.double_quote_open or context.single_quote_open then
 		return false
 	end
-	if object_table.BRACKETS[char] or object_table.OPERATORS[char] or char == "=" then
-		-- todo
+  if object_table.BRACKETS[char] ~= nil then
     add_token(context)
+    context.token_type = object_table.BRACKETS[char]
     context.token = char
     add_token(context)
+    context.token_type = object_table.TOKEN_TYPE.WORD
 		lambda()
 		return true
-	end
+  end
+  if object_table.OPERATORS[char] ~= nil then
+    add_token(context)
+    context.token_type = object_table.OPERATORS[char]
+    context.token = char
+    add_token(context)
+    context.token_type = object_table.TOKEN_TYPE.WORD
+		lambda()
+		return true
+  end
 	if object_table.WHITESPACE[char] then
 		-- todo
 		lambda()
@@ -78,9 +88,9 @@ function M.lexer(context, line)
         add_token(context)
       end
       context.comment_is_open = true
-      context.token = object_table.TOKEN_TYPE.COMMENT
+      context.token_type = object_table.TOKEN_TYPE.COMMENT
     end
-		if isBreak(context, char, function() end) then
+		if is_break(context, char, function() end) then
 			goto end_of_loop
 		end
     context.token = context.token .. char
