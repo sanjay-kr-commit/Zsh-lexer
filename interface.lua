@@ -35,9 +35,9 @@ local function args_process(context, lexer)
 	return true
 end
 
-local function_table = {}
+local interface_table = {}
 
-function function_table.process(lexer, process_context)
+function interface_table.intercept(lexer, process_context)
 	if is_piped() then
 		local context = object.context_template.copy({
 			file_name = "<stdin>",
@@ -64,4 +64,4 @@ function function_table.process(lexer, process_context)
 	end
 end
 
-return function_table
+return interface_table

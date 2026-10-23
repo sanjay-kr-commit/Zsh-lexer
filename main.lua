@@ -6,8 +6,8 @@ local dir = script:match("(.*/)") or "./"
 package.path = dir .. "?.lua;" .. package.path
 -- end of logic
 
-local function_table = require("functions")
+local interface_table = require("interface")
 local lexer = require("lexer")
 
 -- entry point
-function_table.process(lexer.lexer, lexer.inspection_handler_std_out)
+interface_table.intercept(lexer.lexer, lexer.inspection_handler_std_out)
