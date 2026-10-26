@@ -17,13 +17,13 @@ local function add_token(context)
   context.token_pool[context.token_pool_size] = {
 	  type = context.token_type,
     value = context.token,
-    line = context.line  ,
-    column = context.column ,
+    line = context.line,
+    column = context.column,
 	}
   context.token = ""
 end
 
-local function is_break(context, prev_char, char, lambda)
+local function is_break(context, prev_char, char)
 	if context.comment_is_open or context.double_quote_open or context.single_quote_open then
 		return false
 	end
@@ -33,8 +33,7 @@ local function is_break(context, prev_char, char, lambda)
     context.token = char
     add_token(context)
     context.token_type = object_table.TOKEN_TYPE.WORD
-		lambda()
-		return true
+    return true
   end
   if prev_char ~= '\\' and object_table.OPERATORS[char] ~= nil then
     add_token(context)
@@ -42,13 +41,11 @@ local function is_break(context, prev_char, char, lambda)
     context.token = char
     add_token(context)
     context.token_type = object_table.TOKEN_TYPE.WORD
-		lambda()
-		return true
+    return true
   end
 	if prev_char ~= '\\' and object_table.WHITESPACE[char] then
     add_token(context)
-		lambda()
-		return true
+    return true
 	end
 	return false
 end
@@ -57,6 +54,7 @@ function lexer_table.lexer(context, line)
   context.token_type = object_table.TOKEN_TYPE.WORD
   local prev_char = ""
   local column = 1
+  context.column = column
 	for char in line:gmatch(".") do
     if prev_char == " " then
       context.column = column
@@ -75,9 +73,8 @@ function lexer_table.lexer(context, line)
       context.comment_is_open = true
       context.token_type = object_table.TOKEN_TYPE.COMMENT
     end
-		if is_break(context, prev_char , char, function()
+		if is_break(context, prev_char , char) then
       context.column = column
-    end) then
 			goto end_of_loop
 		end
     context.token = context.token .. char
