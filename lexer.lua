@@ -66,10 +66,7 @@ function lexer_table.lexer(context, line)
     if char == '"' and not context.single_quote_open and prev_char ~= '\\' and not context.comment_is_open then
       context.double_quote_open = not context.double_quote_open
     end
-    if char == "#" and not context.comment_is_open and not context.single_quote_open and not context.double_quote_open then
-      if not context.comment_is_open then
-        add_token(context)
-      end
+    if context.token == "" and char == "#" and not context.comment_is_open and not context.single_quote_open and not context.double_quote_open then
       context.comment_is_open = true
       context.token_type = object_table.TOKEN_TYPE.COMMENT
     end
